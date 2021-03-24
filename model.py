@@ -1,6 +1,7 @@
 """Models for movie ratings app."""
 
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -34,6 +35,8 @@ class Movie(db.Model):
     release_date = db.Column(db.DateTime)
     poster_path = db.Column(db.String)
 
+    # ratings = a list of Rating objects
+
     def __repr__(self):
         return f'<Movie movie_id={self.movie_id} title={self.title}>'
 
@@ -51,6 +54,8 @@ class Rating(db.Model):
 
     movie = db.relationship('Movie', backref='ratings')
     user = db.relationship('User', backref='ratings')
+
+    #ratings = a list of Rating objects
 
     def __repr__(self):
         return f'<Rating rating_id={self.rating_id} score={self.score}>'
@@ -74,4 +79,4 @@ if __name__ == '__main__':
     # too annoying; this will tell SQLAlchemy not to print out every
     # query it executes.
 
-    connect_to_db(app)
+    connect_to_db(app, echo=False)
